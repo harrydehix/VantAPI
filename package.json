@@ -1,0 +1,14 @@
+{
+    "name": "vproweather-web-api",
+    "version": "0.0.1",
+    "description": "web api for the vantage pro weather station based on the linux vproweather driver",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Henri Hollmann",
+    "license": "ISC",
+    "dependencies": {
+        "await-exec": "^0.1.2"
+    }
+}
