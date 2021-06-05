@@ -36,7 +36,7 @@ class VPInterface {
             if (!this.config.useSamples) {
                 data = (
                     await exec(
-                        `vproweather --delay=${this.options.delay} --get-realtime ${this.deviceUrl}`
+                        `vproweather --delay=${this.config.delay} --get-realtime ${this.deviceUrl}`
                     )
                 ).stdout;
             } else {
@@ -68,7 +68,7 @@ class VPInterface {
             if (!this.config.useSamples) {
                 data = (
                     await exec(
-                        `vproweather --delay=${this.options.delay} --get-highlow ${this.deviceUrl}`
+                        `vproweather --delay=${this.config.delay} --get-highlow ${this.deviceUrl}`
                     )
                 ).stdout;
             } else {
@@ -99,7 +99,7 @@ class VPInterface {
             if (!this.config.useSamples) {
                 data = (
                     await exec(
-                        `vproweather --delay=${this.options.delay} --get-time ${this.deviceUrl}`
+                        `vproweather --delay=${this.config.delay} --get-time ${this.deviceUrl}`
                     )
                 ).stdout;
             } else {
@@ -121,19 +121,33 @@ class VPInterface {
      */
     syncConsoleTime = createHandler.apply(this, [
         async () => {
+            if (this.config.useSamples) return;
             await exec(
-                `vproweather --delay=${this.options.delay} --set-time ${this.deviceUrl}`
+                `vproweather --delay=${this.config.delay} --set-time ${this.deviceUrl}`
             );
+            return true;
         },
     ]);
 
     /**
-     * Turn the console's backlite on/off.
+     * Turn the console's backlite off.
      */
-    setBacklite = createHandler.apply(this, [
-        async (enable = true) => {
-            if (enable) await exec(`vproweather --bklite-on ${this.deviceUrl}`);
-            else await exec(`vproweather --bklite-off ${this.deviceUrl}`);
+    turnBackliteOff = createHandler.apply(this, [
+        async () => {
+            if (this.config.useSamples) return;
+            await exec(`vproweather --bklite-off ${this.deviceUrl}`);
+            return true;
+        },
+    ]);
+
+    /**
+     * Turn the console's backlite on.
+     */
+    turnBackliteOn = createHandler.apply(this, [
+        async () => {
+            if (this.config.useSamples) return;
+            await exec(`vproweather --bklite-on ${this.deviceUrl}`);
+            return true;
         },
     ]);
 
@@ -146,7 +160,7 @@ class VPInterface {
             // get data from driver or from sample files (if developing on another computer)
             if (!this.config.useSamples)
                 await exec(
-                    `vproweather --delay=${this.options.delay} --model ${this.deviceUrl}`
+                    `vproweather --delay=${this.config.delay} --model ${this.deviceUrl}`
                 );
             else {
                 data = await fs.readFile(`${__dirname}/samples/model.txt`, {

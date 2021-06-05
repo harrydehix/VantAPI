@@ -8,7 +8,7 @@ module.exports = function (type, data) {
     if (type === "realtime") {
         return {
             nextArchiveRecord: data.rtNextArchiveRecord,
-            pessure: {
+            pressure: {
                 current: data.rtBaroCurr,
                 trend: data.rtBaroTrend,
                 image: data.rtBaroTrendImg,
