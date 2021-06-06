@@ -1,11 +1,21 @@
 const Unit = require("./Unit");
 
+/**
+ * Contains weather data including units.
+ * @method applyUnits converts the weather data to match the desired units
+ * @method toObject returns the plain weather data excluding units
+ */
 class VPData {
     constructor(data) {
         Object.assign(this, data);
         this.units = Unit.preset();
     }
 
+    /**
+     * Converts the weather data to match the desired units.
+     * @param {Object} units object holding the desired units (also called 'unit preset')
+     * @param {Object} data internal variable, don't change
+     */
     applyUnits(units, data = this) {
         if (units.preset) units = Unit.preset(units.preset);
         else units = { ...this.units, ...units };
@@ -38,6 +48,12 @@ class VPData {
         else return data;
     }
 
+    /**
+     * Returns the plain weather data excluding the units.
+     * @param {*} appendUnits whether to append the used unit preset
+     * @param {*} data internal variable, don't use
+     * @returns the plain weather data as object
+     */
     toObject(appendUnits = false, data = this) {
         const obj = {};
 
@@ -59,25 +75,3 @@ class VPData {
 }
 
 module.exports = VPData;
-
-// example
-// const data = new VPData({
-//     temperature: [Unit.TYPE.TEMPERATURE, 23.4],
-//     pressure: {
-//         current: [Unit.TYPE.PRESSURE, 21.2],
-//     },
-// });
-
-// data.applyUnits({
-//     [Unit.TYPE.PRESSURE]: Unit.PRESSURE.hpa,
-//     [Unit.TYPE.TEMPERATURE]: Unit.TEMPERATURE.celsius,
-// });
-
-// console.log(data);
-
-// data.applyUnits({
-//     [Unit.TYPE.PRESSURE]: Unit.PRESSURE.inhg,
-//     [Unit.TYPE.TEMPERATURE]: Unit.TEMPERATURE.fahrenheit,
-// });
-
-// console.log(data);

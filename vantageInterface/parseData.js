@@ -1,3 +1,9 @@
+/**
+ * Parses the vproweather's string data to javascript object's.
+ * @param {*} data the driver's string data
+ * @param {*} colonAsDevider whether to use ':' as devider (instead of '=')
+ * @returns the parsed data
+ */
 module.exports = function (data, colonAsDevider = false) {
     // split string into array of the pattern ["key = value", ["key = value"], ...]
     const dataAsArray = data.split("\n");

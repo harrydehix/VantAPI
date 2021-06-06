@@ -5,6 +5,11 @@ const createHandler = require("./createHandler");
 const refractorData = require("./refractorData");
 const VPData = require("./VPData");
 
+/**
+ * Fixes the vproweather's negative wind chill value bug by calculating the wind chill from outside temperature and gust speed.
+ * @param {} data the realtime data set
+ * @returns the fixed realtime data set
+ */
 const fixWindChill = (data) => {
     if (data.rtWindChill < 0) {
         data.rtWindChill =
@@ -25,13 +30,11 @@ const fixWindChill = (data) => {
 class VPInterface {
     /**
      * @param {String} deviceUrl the url to the serial device
-     * @param {Object} config interface/driver settings
+     * @param {Object} config additional interface/driver settings
      * @param {Number} config.delay time to wait for the answer of the weather station in 1/10s (default: 10)
      * @param {Number} config.maxTries maximum amount of request retries on connection error (default: 20)
      * @param {Boolean} config.logErrors whether to log errors (default: false)
-     * @param {Boolean} config.pretty whether to use vproweather's original data structure or a prettier refractored one (default: true)
      * @param {Boolean} config.useSamples whether to really connect to the weather station using vproweather or to simulate the connection (default: false)
-     * @param {Number} config.cupSize the weather stations cup size in mm (default: 0.2)
      */
     constructor(deviceUrl = "/dev/ttyUSB0", config) {
         this.config = Object.assign(

@@ -1,7 +1,11 @@
 /**
- * Interface to all available units, their types and a conversion function.
+ * Interface to all available units, their types, unit presets, and a conversion function.
  */
 const Unit = {
+    /**
+     * Contains all available unit types.
+     * A unit type is a string representing a group of units being convertible among themselves.
+     */
     TYPE: {
         WIND: "wind",
         TEMPERATURE: "temp",
@@ -10,33 +14,98 @@ const Unit = {
         SOLAR_RADIATION: "slra",
         SOIL_MOISTURE: "soil",
     },
+    /**
+     * Contains all available wind units.
+     */
     WIND: {
+        /**
+         * wind unit, miles per hour
+         */
         mph: "mp/h",
+        /**
+         * wind unit, kilometers per hour
+         */
         kmh: "km/h",
+        /**
+         * wind unit, meters per second
+         */
         ms: "m/s",
+        /**
+         * wind unit, knots
+         */
         kt: "kt",
     },
+    /**
+     * Contains all available temperature units.
+     */
     TEMPERATURE: {
+        /**
+         * temperature unit, fahrenheit
+         */
         fahrenheit: "°F",
+        /**
+         * temperature unit, celsius
+         */
         celsius: "°C",
     },
+    /**
+     * Contains all available pressure units.
+     */
     PRESSURE: {
+        /**
+         * pressure unit, inches per mercury
+         */
         inhg: "inHg",
+        /**
+         * pressure unit, hectopascal
+         */
         hpa: "hPa",
+        /**
+         * pressure unit, bar
+         */
         bar: "bar",
     },
+    /**
+     * Contains all available rain units.
+     */
     RAIN: {
+        /**
+         * rain unit, cups
+         */
         cups: "cups",
+        /**
+         * rain unit, millimeters
+         */
         mm: "mm",
+        /**
+         * rain unit, inches
+         */
         in: "in",
     },
+    /**
+     * Contains all available solar radiation units.
+     */
     SOLAR_RADIATION: {
+        /**
+         * solar radiation unit, watt per m²
+         */
         wm2: "W/m²",
     },
+    /**
+     * Contains all available soil moisture units.
+     */
     SOIL_MOISTURE: {
+        /**
+         * soil moisture unit, cb
+         */
         cb: "cb",
     },
 
+    /**
+     * Returns a unit preset. A unit presets assigns every available unit type a valid unit.
+     * @param {String} presetName the name of the preset
+     * @returns the desired unit preset
+     */
     preset(presetName) {
         switch (presetName) {
             case "eu":
@@ -50,9 +119,19 @@ const Unit = {
                     [Unit.TYPE.WIND]: Unit.WIND.kmh,
                 };
             case "us":
-            default:
                 return {
                     preset: "us",
+                    [Unit.TYPE.PRESSURE]: Unit.PRESSURE.inhg,
+                    [Unit.TYPE.RAIN]: Unit.RAIN.in,
+                    [Unit.TYPE.SOIL_MOISTURE]: Unit.SOIL_MOISTURE.cb,
+                    [Unit.TYPE.SOLAR_RADIATION]: Unit.SOLAR_RADIATION.wm2,
+                    [Unit.TYPE.TEMPERATURE]: Unit.TEMPERATURE.fahrenheit,
+                    [Unit.TYPE.WIND]: Unit.WIND.mph,
+                };
+            case "default":
+            default:
+                return {
+                    preset: "default",
                     [Unit.TYPE.PRESSURE]: Unit.PRESSURE.inhg,
                     [Unit.TYPE.RAIN]: Unit.RAIN.cups,
                     [Unit.TYPE.SOIL_MOISTURE]: Unit.SOIL_MOISTURE.cb,
@@ -64,7 +143,7 @@ const Unit = {
     },
 
     /**
-     * Converts a value from one unit to another.
+     * Converts a value from one unit to another. The units must belong to the same type.
      * @param {Number} value the value to convert
      * @param {String} currentUnit the value's current unit
      * @param {String} targetUnit the value's target unit

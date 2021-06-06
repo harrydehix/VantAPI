@@ -1,5 +1,12 @@
 const Unit = require("./Unit");
 
+/**
+ * Refractors the different vproweather's data structures into more js-like structures. Depending
+ * on the structure type meta data about the field's unit is added.
+ * @param {*} data the data to refractor
+ * @param {*} type the type of the data
+ * @returns the refractored data
+ */
 module.exports = function (data, type) {
     if (type === "model") {
         return { model: data.Model };
