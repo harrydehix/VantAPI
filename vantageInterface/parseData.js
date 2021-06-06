@@ -17,7 +17,7 @@ module.exports = function (data, colonAsDevider = false) {
         if (!isNaN(value) && key !== "rtNextArchiveRecord")
             value = Number(value);
         else if (value === "n/a") value = null;
-        else if (value === "no" || value === "yes") value = value === "Yes";
+        else if (value === "no" || value === "yes") value = value === "yes";
         else if (key === "DavisTime") value = new Date(value);
 
         dataAsObject[key] = value;

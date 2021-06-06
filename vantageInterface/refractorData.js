@@ -1,4 +1,6 @@
-module.exports = function (type, data) {
+const Unit = require("./Unit");
+
+module.exports = function (data, type) {
     if (type === "model") {
         return { model: data.Model };
     }
@@ -9,16 +11,16 @@ module.exports = function (type, data) {
         return {
             nextArchiveRecord: data.rtNextArchiveRecord,
             pressure: {
-                current: data.rtBaroCurr,
+                current: [Unit.TYPE.PRESSURE, data.rtBaroCurr],
                 trend: data.rtBaroTrend,
                 image: data.rtBaroTrendImg,
             },
             wind: {
                 speed: {
-                    current: data.rtWindSpeed,
+                    current: [Unit.TYPE.WIND, data.rtWindSpeed],
                     avg: {
-                        short: data.rtWindAvgSpeed,
-                        long: data.rtWind2mAvgSpeed,
+                        short: [Unit.TYPE.WIND, data.rtWindAvgSpeed],
+                        long: [Unit.TYPE.WIND, data.rtWind2mAvgSpeed],
                     },
                 },
                 direction: {
@@ -26,40 +28,40 @@ module.exports = function (type, data) {
                     rose: data.rtWindDirRose,
                 },
                 gust: {
-                    speed: data.rtWind10mGustMaxSpeed,
+                    speed: [Unit.TYPE.WIND, data.rtWind10mGustMaxSpeed],
                     direction: {
                         degrees: data.rtWind10mGustMaxDir,
                         rose: data.rtWind10mGustMaxDirRose,
                     },
                 },
-                chill: data.rtWindChill,
+                chill: [Unit.TYPE.TEMPERATURE, data.rtWindChill],
             },
             humidity: {
                 outside: data.rtOutsideHum,
                 inside: data.rtInsideHum,
             },
             temperature: {
-                outside: data.rtOutsideTemp,
-                inside: data.rtInsideTemp,
+                outside: [Unit.TYPE.TEMPERATURE, data.rtOutsideTemp],
+                inside: [Unit.TYPE.TEMPERATURE, data.rtInsideTemp],
             },
             rain: {
-                rate: data.rtRainRate,
+                rate: [Unit.TYPE.RAIN, data.rtRainRate],
                 isRaining: data.rtIsRaining,
-                quarter: data.rt15mRain,
-                hour: data.rtHourRain,
-                day: data.rtDayRain,
-                month: data.rtMonthRain,
-                year: data.rtYearRain,
+                quarter: [Unit.TYPE.RAIN, data.rt15mRain],
+                hour: [Unit.TYPE.RAIN, data.rtHourRain],
+                day: [Unit.TYPE.RAIN, data.rtDayRain],
+                month: [Unit.TYPE.RAIN, data.rtMonthRain],
+                year: [Unit.TYPE.RAIN, data.rtYearRain],
             },
             storm: {
-                rain: data.rtRainStorm,
+                rain: [Unit.TYPE.RAIN, data.rtRainStorm],
                 startDate: data.rtStormStartDate,
             },
             sun: {
                 rise: data.rtSunrise,
                 set: data.rtSunset,
                 uvLevel: data.rtUVLevel,
-                solarRadiation: data.rtSolarRad,
+                solarRadiation: [Unit.TYPE.SOLAR_RADIATION, data.rtSolarRad],
                 et: {
                     day: data.rtDayET,
                     month: data.rtMonthET,
@@ -74,6 +76,7 @@ module.exports = function (type, data) {
                 consoleVoltageLevel: data.rtBattVoltage,
                 transmitterVoltageLevel: data.rtXmitBattt,
             },
+            thswIndex: data.rtSolarRad === "n/a" ? data.rtThswIndex : null,
         };
     }
     if (type === "highlow") {
@@ -81,57 +84,57 @@ module.exports = function (type, data) {
             pressure: {
                 day: {
                     low: {
-                        value: data.hlBaroLoDay,
+                        value: [Unit.TYPE.PRESSURE, data.hlBaroLoDay],
                         time: data.hlBaroLoTime,
                     },
                     high: {
-                        value: data.hlBaroHiDay,
+                        value: [Unit.TYPE.PRESSURE, data.hlBaroHiDay],
                         time: data.hlBaroHiTime,
                     },
                 },
                 month: {
-                    low: data.hlBaroLoMonth,
-                    high: data.hlBaroHiMonth,
+                    low: [Unit.TYPE.PRESSURE, data.hlBaroLoMonth],
+                    high: [Unit.TYPE.PRESSURE, data.hlBaroHiMonth],
                 },
                 year: {
-                    low: data.hlBaroLoYear,
-                    high: data.hlBaroHiYear,
+                    low: [Unit.TYPE.PRESSURE, data.hlBaroLoYear],
+                    high: [Unit.TYPE.PRESSURE, data.hlBaroHiYear],
                 },
             },
             wind: {
                 day: {
-                    value: data.hlWindHiDay,
+                    value: [Unit.TYPE.WIND, data.hlWindHiDay],
                     time: data.hlWindHiTime,
                 },
-                month: data.hlWindHiMonth,
-                year: data.hlWindHiYear,
+                month: [Unit.TYPE.WIND, data.hlWindHiMonth],
+                year: [Unit.TYPE.WIND, data.hlWindHiYear],
             },
             windChill: {
                 day: {
-                    value: data.hlChillLoDay,
+                    value: [Unit.TYPE.TEMPERATURE, data.hlChillLoDay],
                     time: data.hlChillLoTime,
                 },
-                month: data.hlChillLoMonth,
-                year: data.hlChillLoYear,
+                month: [Unit.TYPE.TEMPERATURE, data.hlChillLoMonth],
+                year: [Unit.TYPE.TEMPERATURE, data.hlChillLoYear],
             },
             dewpoint: {
                 day: {
                     low: {
-                        value: data.hlDewLoDay,
+                        value: [Unit.TYPE.TEMPERATURE, data.hlDewLoDay],
                         time: data.hlDewLoTime,
                     },
                     high: {
-                        value: data.hlDewHiDay,
+                        value: [Unit.TYPE.TEMPERATURE, data.hlDewHiDay],
                         time: data.hlDewHiTime,
                     },
                 },
                 month: {
-                    low: data.hlDewLoMonth,
-                    high: data.hlDewHiMonth,
+                    low: [Unit.TYPE.TEMPERATURE, data.hlDewLoMonth],
+                    high: [Unit.TYPE.TEMPERATURE, data.hlDewHiMonth],
                 },
                 year: {
-                    low: data.hlDewLoYear,
-                    high: data.hlDewHiYear,
+                    low: [Unit.TYPE.TEMPERATURE, data.hlDewLoYear],
+                    high: [Unit.TYPE.TEMPERATURE, data.hlDewHiYear],
                 },
             },
             heatIndex: {
@@ -144,11 +147,11 @@ module.exports = function (type, data) {
             },
             solarRadiation: {
                 day: {
-                    value: data.hlSolarHiDay,
+                    value: [Unit.TYPE.SOLAR_RADIATION, data.hlSolarHiDay],
                     time: data.hlSolarHiTime,
                 },
-                month: data.hlSolarHiMonth,
-                year: data.hlSolarHiYear,
+                month: [Unit.TYPE.SOLAR_RADIATION, data.hlSolarHiMonth],
+                year: [Unit.TYPE.SOLAR_RADIATION, data.hlSolarHiYear],
             },
             uvLevel: {
                 day: {
@@ -160,51 +163,51 @@ module.exports = function (type, data) {
             },
             rainRate: {
                 day: {
-                    value: data.hlRainRateHiDay,
+                    value: [Unit.TYPE.RAIN, data.hlRainRateHiDay],
                     time: data.hlRainRateHiTime,
                 },
-                month: data.hlRainRateHiMonth,
-                year: data.hlRainRateHiYear,
+                month: [Unit.TYPE.RAIN, data.hlRainRateHiMonth],
+                year: [Unit.TYPE.RAIN, data.hlRainRateHiYear],
             },
             temperature: {
                 inside: {
                     day: {
                         low: {
-                            value: data.hlInTempLoDay,
+                            value: [Unit.TYPE.TEMPERATURE, data.hlInTempLoDay],
                             time: data.hlInTempLoTime,
                         },
                         high: {
-                            value: data.hlInTempHiDay,
+                            value: [Unit.TYPE.TEMPERATURE, data.hlInTempHiDay],
                             time: data.hlInTempHiTime,
                         },
                     },
                     month: {
-                        low: data.hlInTempLoMonth,
-                        high: data.hlInTempHiMonth,
+                        low: [Unit.TYPE.TEMPERATURE, data.hlInTempLoMonth],
+                        high: [Unit.TYPE.TEMPERATURE, data.hlInTempHiMonth],
                     },
                     year: {
-                        low: data.hlInTempLoYear,
-                        high: data.hlInTempHiYear,
+                        low: [Unit.TYPE.TEMPERATURE, data.hlInTempLoYear],
+                        high: [Unit.TYPE.TEMPERATURE, data.hlInTempHiYear],
                     },
                 },
                 outside: {
                     day: {
                         low: {
-                            value: data.hlOutTempLoDay,
+                            value: [Unit.TYPE.TEMPERATURE, data.hlOutTempLoDay],
                             time: data.hlOutTempLoTime,
                         },
                         high: {
-                            value: data.hlOutTempHiDay,
+                            value: [Unit.TYPE.TEMPERATURE, data.hlOutTempHiDay],
                             time: data.hlOutTempHiTime,
                         },
                     },
                     month: {
-                        low: data.hlOutTempLoMonth,
-                        high: data.hlOutTempHiMonth,
+                        low: [Unit.TYPE.TEMPERATURE, data.hlOutTempLoMonth],
+                        high: [Unit.TYPE.TEMPERATURE, data.hlOutTempHiMonth],
                     },
                     year: {
-                        low: data.hlOutTempLoYear,
-                        high: data.hlOutTempHiYear,
+                        low: [Unit.TYPE.TEMPERATURE, data.hlOutTempLoYear],
+                        high: [Unit.TYPE.TEMPERATURE, data.hlOutTempHiYear],
                     },
                 },
             },

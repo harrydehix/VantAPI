@@ -1,16 +1,37 @@
 const exec = require("await-exec");
 const fs = require("fs/promises");
 const parseData = require("./parseData");
-const makePrettier = require("./makePrettier");
 const createHandler = require("./createHandler");
+const refractorData = require("./refractorData");
+const VPData = require("./VPData");
+
+const fixWindChill = (data) => {
+    if (data.rtWindChill < 0) {
+        data.rtWindChill =
+            35.74 +
+            0.6215 * data.rtOutsideTemp +
+            (0.4275 * data.rtOutsideTemp - 35.75) *
+                Math.pow(data.rtWind10mGustMaxSpeed, 0.16);
+        if (data.rtWindChill > data.rtOutsideTemp) {
+            data.rtWindChill = data.rtOutsideTemp;
+        }
+    }
+    return data;
+};
 
 /**
  * Basic interface to a vantage pro that is connected serially. The vproweather driver must be installed and globally adressable.
  */
 class VPInterface {
     /**
-     * @param {*} deviceUrl the url to the serial device
-     * @param {*} config interface/driver settings
+     * @param {String} deviceUrl the url to the serial device
+     * @param {Object} config interface/driver settings
+     * @param {Number} config.delay time to wait for the answer of the weather station in 1/10s (default: 10)
+     * @param {Number} config.maxTries maximum amount of request retries on connection error (default: 20)
+     * @param {Boolean} config.logErrors whether to log errors (default: false)
+     * @param {Boolean} config.pretty whether to use vproweather's original data structure or a prettier refractored one (default: true)
+     * @param {Boolean} config.useSamples whether to really connect to the weather station using vproweather or to simulate the connection (default: false)
+     * @param {Number} config.cupSize the weather stations cup size in mm (default: 0.2)
      */
     constructor(deviceUrl = "/dev/ttyUSB0", config) {
         this.config = Object.assign(
@@ -18,7 +39,6 @@ class VPInterface {
                 delay: 10,
                 maxTries: 20,
                 logErrors: false,
-                pretty: true,
                 useSamples: false,
             },
             config
@@ -36,7 +56,7 @@ class VPInterface {
             if (!this.config.useSamples) {
                 data = (
                     await exec(
-                        `vproweather --delay=${this.config.delay} --get-realtime ${this.deviceUrl}`
+                        `vproweather --delay=${this.config.delay} -x ${this.deviceUrl}`
                     )
                 ).stdout;
             } else {
@@ -51,9 +71,13 @@ class VPInterface {
             // parse data to object
             data = parseData(data);
 
-            // restructure object
-            if (this.config.pretty) return makePrettier("realtime", data);
-            return data;
+            // calculate wind chill manually if driver returns invalid value
+            data = fixWindChill(data);
+
+            // refractor data into a common api structure
+            data = refractorData(data, "realtime");
+
+            return new VPData(data);
         },
     ]);
 
@@ -68,7 +92,7 @@ class VPInterface {
             if (!this.config.useSamples) {
                 data = (
                     await exec(
-                        `vproweather --delay=${this.config.delay} --get-highlow ${this.deviceUrl}`
+                        `vproweather --delay=${this.config.delay} -l ${this.deviceUrl}`
                     )
                 ).stdout;
             } else {
@@ -82,9 +106,10 @@ class VPInterface {
             // parse data
             data = parseData(data);
 
-            // restructure object
-            if (this.config.pretty) return makePrettier("highlow", data);
-            return data;
+            // refractor data into a common api structure
+            data = refractorData(data, "highlow");
+
+            return new VPData(data);
         },
     ]);
 
@@ -110,9 +135,7 @@ class VPInterface {
             // parse data
             data = parseData(data);
 
-            // restructure object
-            if (this.config.pretty) return makePrettier("time", data);
-            return data;
+            return refractorData(data, "time");
         },
     ]);
 
@@ -170,9 +193,7 @@ class VPInterface {
             // parse data
             data = parseData(data, true);
 
-            // restructure data
-            if (this.config.pretty) return makePrettier("model", data);
-            return data;
+            return refractorData(data, "model");
         },
     ]);
 }
