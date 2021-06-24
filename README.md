@@ -16,7 +16,7 @@ A local Linux device connected to the Vantage console pushes the currently measu
 - A linux device that is connected serially to your vantage pro console (e.g. a raspberry pi) and is able to run Node.js programs
 - A (public) server (no need for Linux) that is able to run Node.js programs and store data in MongoDB databases
 
-<img src="screenshotsAndShowcase/Setup1.svg" alt="setup1" width="300"/>
+![](screenshotsAndShowcase/Setup1.svg)
 
 #### Setup B
 
@@ -26,4 +26,4 @@ The public API server is directly connected to the vantage console. Every 5 minu
 
 - A (public) Linux server serially connected to the Vantage console that can run NodeJS programs and store data in MongoDB databases
 
-<img src="screenshotsAndShowcase/Setup2.svg" alt="setup1" width="300"/>
+![](screenshotsAndShowcase/Setup2.svg)

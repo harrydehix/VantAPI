@@ -9,9 +9,9 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg8"
    version="1.1"
-   viewBox="0 0 213.67468 379.03058"
-   height="379.03058mm"
-   width="213.67468mm"
+   viewBox="0 0 584.46856 75.084038"
+   height="75.084038mm"
+   width="584.46857mm"
    sodipodi:docname="Setup1.svg"
    inkscape:version="0.92.3 (2405546, 2018-03-11)">
   <sodipodi:namedview
@@ -27,9 +27,9 @@
      inkscape:window-height="1017"
      id="namedview63"
      showgrid="false"
-     inkscape:zoom="0.30188567"
-     inkscape:cx="664.49971"
-     inkscape:cy="592.51702"
+     inkscape:zoom="0.23879628"
+     inkscape:cx="1984.2119"
+     inkscape:cy="748.05838"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -37,7 +37,9 @@
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true" />
   <defs
      id="defs2">
     <marker
@@ -67,77 +69,51 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(2.9387928,5.5984971)"
+     transform="translate(-44.047659,5.5984971)"
      id="layer1">
     <g
        id="g4639-3"
-       transform="translate(-0.62072675,-135.97438)">
+       transform="matrix(0,1,-1.5081234,0,505.36873,-73.813378)"
+       inkscape:transform-center-x="-43.127051"
+       inkscape:transform-center-y="26.63783">
       <path
          style="fill:#999999;stroke:#999999;stroke-width:3.37288165;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 105.7569,197.31369 v 39.31795"
          id="path1136-0"
          inkscape:connector-curvature="0" />
     </g>
-    <text
-       id="text4705"
-       y="77.762245"
-       x="105.13617"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#999999;fill-opacity:1;stroke:#999999;stroke-width:0.19315884"
-       xml:space="preserve"><tspan
-         id="tspan4707"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#999999;stroke:#999999;stroke-width:0.19315884"
-         y="77.762245"
-         x="105.13617"> </tspan><tspan
-         id="tspan4693"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#999999;stroke:#999999;stroke-width:0.19315884"
-         y="77.762245"
-         x="105.13617" /><tspan
-         id="tspan4695"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#999999;stroke:#999999;stroke-width:0.19315884"
-         y="77.762245"
-         x="105.13617" /><tspan
-         id="tspan4697"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#999999;stroke:#999999;stroke-width:0.19315884"
-         y="77.762245"
-         x="105.13617" /><tspan
-         id="tspan4699"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#999999;stroke:#999999;stroke-width:0.19315884"
-         y="77.762245"
-         x="105.13617" /><tspan
-         id="tspan4701"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#999999;stroke:#999999;stroke-width:0.19315884"
-         y="77.762245"
-         x="105.13617" /></text>
     <g
-       id="g4628">
+       id="g926"
+       transform="translate(50.671115)">
       <rect
          style="opacity:1;fill:#999999;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:0.97254902"
          id="rect1056"
          width="104.40537"
-         height="100.35079"
-         x="51.695866"
-         y="96.974167"
-         ry="4.2264204" />
+         height="75.08403"
+         x="156.34111"
+         y="-5.5984931"
+         ry="3.1622736" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:6.3499999px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.13229166"
+         x="208.30086"
+         y="48.809757"
+         id="text823"><tspan
+           x="208.30086"
+           y="48.809757"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:6.3499999px;font-family:Raleway;-inkscape-font-specification:'Raleway Bold';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.13229166"
+           id="tspan825">LOCAL LINUX</tspan><tspan
+           x="208.30086"
+           y="57.007069"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:6.3499999px;font-family:Raleway;-inkscape-font-specification:'Raleway Bold';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.13229166"
+           id="tspan1101">DEVICE</tspan></text>
       <g
-         id="g4618">
-        <text
-           id="text823"
-           y="181.91789"
-           x="103.99335"
-           style="font-style:normal;font-weight:normal;font-size:6.3499999px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.13229166"
-           xml:space="preserve"><tspan
-             id="tspan825"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:6.3499999px;font-family:Raleway;-inkscape-font-specification:'Raleway Bold';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.13229166"
-             y="181.91789"
-             x="103.99335">LOCAL LINUX</tspan><tspan
-             id="tspan1101"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:6.3499999px;font-family:Raleway;-inkscape-font-specification:'Raleway Bold';text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke-width:0.13229166"
-             y="190.1152"
-             x="103.99335">DEVICE</tspan></text>
+         style="fill:#ffffff"
+         id="Linux"
+         transform="matrix(0.90127858,0,0,0.90127858,179.49908,18.858607)">
         <g
-           transform="matrix(1.6161093,0,0,1.6161093,65.919983,98.057554)"
-           id="Linux"
-           style="fill:#ffffff">
+           transform="translate(8.7261304,-24.239251)"
+           id="g895">
           <path
              style="opacity:0.3;fill:#ffffff;enable-background:new"
              class="st0"
@@ -155,7 +131,7 @@
     </g>
     <g
        id="g4610"
-       transform="translate(-1.2376213,-10.401436)">
+       transform="translate(-8.6459551,-10.401436)">
       <rect
          style="opacity:0;fill:#5f8dd3;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:0.97254902"
          id="rect815"
@@ -295,61 +271,70 @@
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:6.3499999px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.13229166"
          x="103.47023"
-         y="58.966915"
+         y="59.204842"
          id="text823-9"><tspan
            id="tspan821-2"
            x="103.47023"
-           y="58.966915"
+           y="59.204842"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:6.3499999px;font-family:Raleway;-inkscape-font-specification:'Raleway Bold';text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.13229166">VANTAGE PRO</tspan><tspan
            x="103.47023"
-           y="67.16423"
+           y="67.402153"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:6.3499999px;font-family:Raleway;-inkscape-font-specification:'Raleway Bold';text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.13229166"
            id="tspan825-2">CONSOLE</tspan></text>
     </g>
     <text
        id="text1107"
-       y="80.153687"
-       x="137.17184"
+       y="15.105474"
+       x="178.23772"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#999999;fill-opacity:1;stroke:#999999;stroke-width:0.19315884"
        xml:space="preserve"><tspan
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#999999;stroke:#999999;stroke-width:0.19315884"
-         y="80.153687"
-         x="137.17184"
+         y="15.105474"
+         x="178.23772"
          id="tspan1105">SERIAL</tspan><tspan
          id="tspan1109"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#999999;stroke:#999999;stroke-width:0.19315884"
-         y="89.811638"
-         x="137.17184">CONNECTION</tspan></text>
-    <rect
-       ry="4.7197504"
-       y="239.76155"
-       x="-1.5624313"
-       height="86.028992"
-       width="210.92197"
-       id="rect1111"
-       style="opacity:1;fill:#0066ff;fill-opacity:1;stroke:#0066ff;stroke-width:2.75272298;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.97254902" />
-    <text
-       id="text823-2"
-       y="294.22662"
-       x="105.04613"
-       style="font-style:normal;font-weight:normal;font-size:32.25517654px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:0.67198282"
-       xml:space="preserve"><tspan
-         id="tspan1101-5"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:32.25517654px;font-family:Raleway;-inkscape-font-specification:'Raleway Bold';text-align:center;text-anchor:middle;fill:#f2f2f2;fill-opacity:1;stroke-width:0.67198282"
-         y="294.22662"
-         x="105.04613">VANTAPI</tspan></text>
+         y="24.763424"
+         x="178.23772">CONNECTION</tspan></text>
     <g
-       id="g4635">
+       id="g891"
+       transform="translate(372.90104,-245.36004)">
       <g
-         id="g4639">
+         id="g916">
+        <rect
+           ry="3.9335549"
+           y="241.46526"
+           x="-1.6671175"
+           height="71.698662"
+           width="211.13133"
+           id="rect1111"
+           style="opacity:1;fill:#0066ff;fill-opacity:1;stroke:#0066ff;stroke-width:2.51426506;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.97254902" />
+        <text
+           id="text823-2"
+           y="287.58997"
+           x="104.92834"
+           style="font-style:normal;font-weight:normal;font-size:28.94475937px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:0.60301578"
+           xml:space="preserve"><tspan
+             id="tspan1101-5"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:28.94475937px;font-family:Raleway;-inkscape-font-specification:'Raleway Bold';text-align:center;text-anchor:middle;fill:#f2f2f2;fill-opacity:1;stroke-width:0.60301578"
+             y="287.58997"
+             x="104.92834">VANTAPI</tspan></text>
+      </g>
+    </g>
+    <g
+       id="g4635"
+       transform="translate(223.32474,-134.2912)">
+      <g
+         id="g4639"
+         transform="rotate(-90,89.91537,182.77951)">
         <path
            id="path1136"
-           d="m 105.7569,197.31369 v 39.31795"
-           style="fill:#999999;stroke:#999999;stroke-width:3.37288165;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 106.46016,181.02655 v 55.60509"
+           style="fill:#999999;stroke:#999999;stroke-width:4.01109505;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            inkscape:connector-curvature="0" />
         <polygon
            style="fill:#999999;stroke:#999999;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10"
-           transform="matrix(0,-0.72535708,0.72535708,0,94.151186,243.0487)"
+           transform="matrix(0,-0.72535708,0.72535708,0,94.854442,243.0487)"
            points="26,3 26,29 6,16 "
            stroke-miterlimit="10"
            id="polygon1552" />
@@ -357,20 +342,20 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#999999;fill-opacity:1;stroke:#999999;stroke-width:0.19315884"
-         x="142.91235"
-         y="213.73662"
+         x="117.12993"
+         y="142.82541"
          id="text1107-4"><tspan
-           x="142.91235"
-           y="213.73662"
+           x="117.12993"
+           y="142.82541"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#999999;stroke:#999999;stroke-width:0.19315884"
            id="tspan1589">PUSH DATA</tspan><tspan
-           x="142.91235"
-           y="223.39458"
+           x="117.12993"
+           y="152.48337"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.72636223px;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#999999;stroke:#999999;stroke-width:0.19315884"
            id="tspan1593">SECURELY</tspan></text>
     </g>
     <g
-       transform="matrix(-2.5957745,0,0,-2.5957745,135.04784,383.83218)"
+       transform="matrix(0,2.5957745,-2.5957745,0,638.91631,0.80525264)"
        id="g1615"
        style="fill:none;stroke:#999999;stroke-width:2;stroke-linecap:round;stroke-linejoin:round">
       <path
