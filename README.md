@@ -1,13 +1,29 @@
+🔴 Work still in progress. No release has been published yet. 🔴
+
 # VantAPI
-VantAPI, in short, is a NodeJS Rest API that, with the help of the [vproweather driver](https://github.com/bytesnz/vproweather), allows you to read and record weather data from any Vantage Pro console and publish it to the web via a secure interface.
+
+VantAPI, in short, is a NodeJS Rest API that, with the help of the [vproweather driver](https://github.com/bytesnz/vproweather), allows you to read and record weather data from any Vantage Pro console and publish it to the web (or just your internal network) via a secure interface.
 Depending on your setup, there are several ways you can use the API.
 
 ## Setup Types
 
-#### Local Linux Device Connected To Vantage Console Pushes Data To Public API Server
+#### Setup A
+
+A local Linux device connected to the Vantage console pushes the currently measured weather data to the API server every 5 minutes (changeable) using the **VantAPI Uploader Tool** running in the background. This data gets stored in a _MongoDB database_ on the server. The VantAPI now offers the data and other useful functionality in a structured way to any client making requests using a valid API key. You as admin can create API keys as you like. Advanced features like rate limiting are supported.
+
+🔷 *Requirements*:
+
+- A linux device that is connected serially to your vantage pro console (e.g. a raspberry pi) and is able to run Node.js programs
+- A (public) server (no need for Linux) that is able to run Node.js programs and store data in MongoDB databases
 
 <img src="screenshotsAndShowcase/Setup1.svg" alt="setup1" width="300"/>
 
-#### Public API Server Is Directly Connected To The Vantage Console
+#### Setup B
+
+The public API server is directly connected to the vantage console. Every 5 minutes (changeable) the currently measured weather data gets recorded and stored in a MongoDB database. The VantAPI now offers the data and other useful functionality in a structured way to any client making requests using a valid API key. You as admin can create API keys as you like (and even set a rate limit).
+
+🔷 *Requirements*:
+
+- A (public) Linux server serially connected to the Vantage console that can run NodeJS programs and store data in MongoDB databases
 
 <img src="screenshotsAndShowcase/Setup2.svg" alt="setup1" width="300"/>
