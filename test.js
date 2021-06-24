@@ -1,22 +1,20 @@
 const VPInterface = require("./vantageInterface/VPInterface");
 const inspect = require("./utils/inspect");
-const Unit = require("./vantageInterface/Unit");
 
 async function test() {
     console.log("#########################");
-    const interface = new VPInterface("/dev/ttyUSB0", { useSamples: true });
+    const interface = new VPInterface("/dev/ttyUSB0", {
+        useSamples: true,
+        pretty: false,
+    });
 
-    // let data = await interface.getRealtimeData();
-    // data.applyUnits({
-    //     preset: "eu",
-    // });
-    // console.log("##### REALTIME DATA #####");
-    // inspect(data.toObject());
+    console.log("##### REALTIME DATA #####");
+    const data = await interface.getHighsAndLows();
+    inspect(data);
 
-    const highsAndLows = await interface.getHighsAndLows();
-    highsAndLows.applyUnits({ preset: "eu" });
-    console.log("##### HIGHS & LOWS #####");
-    inspect(highsAndLows.toObject());
+    // const highsAndLows = await interface.getHighsAndLows();
+    // console.log("##### HIGHS & LOWS #####");
+    // inspect(highsAndLows);
 
     // console.log("##### BACKLITE OFF #####");
     // await interface.turnBackliteOff();

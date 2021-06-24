@@ -1,245 +1,303 @@
-const Unit = require("./Unit");
+exports.refractorModel = (data) => ({ model: data.Model });
+exports.refractorTime = (data) => ({ time: data.DavisTime });
 
-/**
- * Refractors the different vproweather's data structures into more js-like structures. Depending
- * on the structure type meta data about the field's unit is added.
- * @param {*} data the data to refractor
- * @param {*} type the type of the data
- * @returns the refractored data
- */
-module.exports = function (data, type) {
-    if (type === "model") {
-        return { model: data.Model };
-    }
-    if (type === "time") {
-        return { time: data.DavisTime };
-    }
-    if (type === "realtime") {
-        return {
-            nextArchiveRecord: data.rtNextArchiveRecord,
-            pressure: {
-                current: [Unit.TYPE.PRESSURE, data.rtBaroCurr],
-                trend: data.rtBaroTrend,
-                image: data.rtBaroTrendImg,
+exports.refractorHighsAndLows = (data) => {
+    const recordTime = new Date();
+    const currentDate = recordTime.toLocaleDateString();
+    return {
+        time: recordTime,
+        pressure: {
+            day: {
+                low: {
+                    value: data.hlBaroLoDay,
+                    time:
+                        data.hlBaroLoTime === null
+                            ? null
+                            : new Date(`${currentDate}, ${data.hlBaroLoTime}`),
+                },
+                high: {
+                    value: data.hlBaroHiDay,
+                    time:
+                        data.hlBaroHiTime === null
+                            ? null
+                            : new Date(`${currentDate}, ${data.hlBaroHiTime}`),
+                },
             },
-            wind: {
-                speed: {
-                    current: [Unit.TYPE.WIND, data.rtWindSpeed],
-                    avg: {
-                        short: [Unit.TYPE.WIND, data.rtWindAvgSpeed],
-                        long: [Unit.TYPE.WIND, data.rtWind2mAvgSpeed],
+            month: {
+                low: data.hlBaroLoMonth,
+                high: data.hlBaroHiMonth,
+            },
+            year: {
+                low: data.hlBaroLoYear,
+                high: data.hlBaroHiYear,
+            },
+        },
+        wind: {
+            day: {
+                value: data.hlWindHiDay,
+                time:
+                    data.hlWindHiTime === null
+                        ? null
+                        : new Date(`${currentDate}, ${data.hlWindHiTime}`),
+            },
+            month: data.hlWindHiMonth,
+            year: data.hlWindHiYear,
+        },
+        windChill: {
+            day: {
+                value: data.hlChillLoDay,
+                time:
+                    data.hlChillLoTime === null
+                        ? null
+                        : new Date(`${currentDate}, ${data.hlChillLoTime}`),
+            },
+            month: data.hlChillLoMonth,
+            year: data.hlChillLoYear,
+        },
+        dewpoint: {
+            day: {
+                low: {
+                    value: data.hlDewLoDay,
+                    time:
+                        data.hlDewLoTime === null
+                            ? null
+                            : new Date(`${currentDate}, ${data.hlDewLoTime}`),
+                },
+                high: {
+                    value: data.hlDewHiDay,
+                    time:
+                        data.hlDewHiTime === null
+                            ? null
+                            : new Date(`${currentDate}, ${data.hlDewHiTime}`),
+                },
+            },
+            month: {
+                low: data.hlDewLoMonth,
+                high: data.hlDewHiMonth,
+            },
+            year: {
+                low: data.hlDewLoYear,
+                high: data.hlDewHiYear,
+            },
+        },
+        heatIndex: {
+            day: {
+                value: data.hlHeatHiDay,
+                time:
+                    data.hlHeatHiTime === null
+                        ? null
+                        : new Date(`${currentDate}, ${data.hlHeatHiTime}`),
+            },
+            month: data.hlHeatHiMonth,
+            year: data.hlHeatHiYear,
+        },
+        solarRadiation: {
+            day: {
+                value: data.hlSolarHiDay,
+                time:
+                    data.hlSolarHiTime === null
+                        ? null
+                        : new Date(`${currentDate}, ${data.hlSolarHiTime}`),
+            },
+            month: data.hlSolarHiMonth,
+            year: data.hlSolarHiYear,
+        },
+        uvLevel: {
+            day: {
+                value: data.hlUVHiDay,
+                time:
+                    data.hlUVHiTime === null
+                        ? null
+                        : new Date(`${currentDate}, ${data.hlUVHiTime}`),
+            },
+            month: data.hlUVHiMonth,
+            year: data.hlUVHiYear,
+        },
+        rainRate: {
+            day: {
+                value: data.hlRainRateHiDay,
+                time:
+                    data.hlRainRateHiTime === null
+                        ? null
+                        : new Date(`${currentDate}, ${data.hlRainRateHiTime}`),
+            },
+            month: data.hlRainRateHiMonth,
+            year: data.hlRainRateHiYear,
+        },
+        temperature: {
+            inside: {
+                day: {
+                    low: {
+                        value: data.hlInTempLoDay,
+
+                        time:
+                            data.hlInTempLoTime === null
+                                ? null
+                                : new Date(
+                                      `${currentDate}, ${data.hlInTempLoTime}`
+                                  ),
+                    },
+                    high: {
+                        value: data.hlInTempHiDay,
+                        time:
+                            data.hlInTempHiTime === null
+                                ? null
+                                : new Date(
+                                      `${currentDate}, ${data.hlInTempHiTime}`
+                                  ),
                     },
                 },
+                month: {
+                    low: data.hlInTempLoMonth,
+                    high: data.hlInTempHiMonth,
+                },
+                year: {
+                    low: data.hlInTempLoYear,
+                    high: data.hlInTempHiYear,
+                },
+            },
+            outside: {
+                day: {
+                    low: {
+                        value: data.hlOutTempLoDay,
+                        time:
+                            data.hlOutTempLoTime === null
+                                ? null
+                                : new Date(
+                                      `${currentDate}, ${data.hlOutTempLoTime}`
+                                  ),
+                    },
+                    high: {
+                        value: data.hlOutTempHiDay,
+                        time:
+                            data.hlOutTempHiTime === null
+                                ? null
+                                : new Date(
+                                      `${currentDate}, ${data.hlOutTempHiTime}`
+                                  ),
+                    },
+                },
+                month: {
+                    low: data.hlOutTempLoMonth,
+                    high: data.hlOutTempHiMonth,
+                },
+                year: {
+                    low: data.hlOutTempLoYear,
+                    high: data.hlOutTempHiYear,
+                },
+            },
+        },
+        humidity: {
+            inside: {
+                day: {
+                    low: {
+                        value: data.hlInHumLoDay,
+                        time:
+                            data.hlInHumLoTime === null
+                                ? null
+                                : new Date(
+                                      `${currentDate}, ${data.hlInHumLoTime}`
+                                  ),
+                    },
+                    high: {
+                        value: data.hlInHumHiDay,
+                        time:
+                            data.hlInHumHiTime === null
+                                ? null
+                                : new Date(
+                                      `${currentDate}, ${data.hlInHumHiTime}`
+                                  ),
+                    },
+                },
+                month: {
+                    low: data.hlInHumLoMonth,
+                    high: data.hlInHumHiMonth,
+                },
+                year: {
+                    low: data.hlInHumLoYear,
+                    high: data.hlInHumHiYear,
+                },
+            },
+        },
+    };
+};
+
+exports.refractorRealtime = (data) => {
+    // Add time and parse sunset/sunrise strings to dates (might not work perfectly with sample data cause it's not up to date)
+    const recordTime = new Date();
+    const currentDate = recordTime.toLocaleDateString();
+    const sunrise = new Date(`${currentDate}, ${data.rtSunrise}`);
+    const sunset = new Date(`${currentDate}, ${data.rtSunset}`);
+    return {
+        time: recordTime,
+        nextArchiveRecord: data.rtNextArchiveRecord,
+        pressure: {
+            current: data.rtBaroCurr,
+            trend: data.rtBaroTrend,
+            image: data.rtBaroTrendImg,
+        },
+        wind: {
+            speed: {
+                current: data.rtWindSpeed,
+                avg: {
+                    short: data.rtWindAvgSpeed,
+                    long: data.rtWind2mAvgSpeed,
+                },
+            },
+            direction: {
+                degrees: data.rtWindDir,
+                rose: data.rtWindDirRose,
+            },
+            gust: {
+                speed: data.rtWind10mGustMaxSpeed,
                 direction: {
-                    degrees: data.rtWindDir,
-                    rose: data.rtWindDirRose,
-                },
-                gust: {
-                    speed: [Unit.TYPE.WIND, data.rtWind10mGustMaxSpeed],
-                    direction: {
-                        degrees: data.rtWind10mGustMaxDir,
-                        rose: data.rtWind10mGustMaxDirRose,
-                    },
-                },
-                chill: [Unit.TYPE.TEMPERATURE, data.rtWindChill],
-            },
-            humidity: {
-                outside: data.rtOutsideHum,
-                inside: data.rtInsideHum,
-            },
-            temperature: {
-                outside: [Unit.TYPE.TEMPERATURE, data.rtOutsideTemp],
-                inside: [Unit.TYPE.TEMPERATURE, data.rtInsideTemp],
-            },
-            rain: {
-                rate: [Unit.TYPE.RAIN, data.rtRainRate],
-                isRaining: data.rtIsRaining,
-                quarter: [Unit.TYPE.RAIN, data.rt15mRain],
-                hour: [Unit.TYPE.RAIN, data.rtHourRain],
-                day: [Unit.TYPE.RAIN, data.rtDayRain],
-                month: [Unit.TYPE.RAIN, data.rtMonthRain],
-                year: [Unit.TYPE.RAIN, data.rtYearRain],
-            },
-            storm: {
-                rain: [Unit.TYPE.RAIN, data.rtRainStorm],
-                startDate: data.rtStormStartDate,
-            },
-            sun: {
-                rise: data.rtSunrise,
-                set: data.rtSunset,
-                uvLevel: data.rtUVLevel,
-                solarRadiation: [Unit.TYPE.SOLAR_RADIATION, data.rtSolarRad],
-                et: {
-                    day: data.rtDayET,
-                    month: data.rtMonthET,
+                    degrees: data.rtWind10mGustMaxDir,
+                    rose: data.rtWind10mGustMaxDirRose,
                 },
             },
-            forecast: {
-                text: data.rtForecast,
-                icon: data.rtForeIcon,
-                rule: data.rtForeRule,
+            chill: data.rtWindChill,
+        },
+        humidity: {
+            outside: data.rtOutsideHum,
+            inside: data.rtInsideHum,
+        },
+        temperature: {
+            outside: data.rtOutsideTemp,
+            inside: data.rtInsideTemp,
+        },
+        rain: {
+            rate: data.rtRainRate,
+            isRaining: data.rtIsRaining,
+            quarter: data.rt15mRain,
+            hour: data.rtHourRain,
+            day: data.rtDayRain,
+            month: data.rtMonthRain,
+            year: data.rtYearRain,
+        },
+        storm: {
+            rain: data.rtRainStorm,
+            // TODO fix wrong date parsing
+            startDate: new Date(data.rtStormStartDate),
+        },
+        sun: {
+            rise: sunrise,
+            set: sunset,
+            uvLevel: data.rtUVLevel,
+            solarRadiation: data.rtSolarRad,
+            et: {
+                day: data.rtDayET,
+                month: data.rtMonthET,
             },
-            batteries: {
-                consoleVoltageLevel: data.rtBattVoltage,
-                transmitterVoltageLevel: data.rtXmitBattt,
-            },
-            thswIndex: data.rtSolarRad === "n/a" ? data.rtThswIndex : null,
-        };
-    }
-    if (type === "highlow") {
-        return {
-            pressure: {
-                day: {
-                    low: {
-                        value: [Unit.TYPE.PRESSURE, data.hlBaroLoDay],
-                        time: data.hlBaroLoTime,
-                    },
-                    high: {
-                        value: [Unit.TYPE.PRESSURE, data.hlBaroHiDay],
-                        time: data.hlBaroHiTime,
-                    },
-                },
-                month: {
-                    low: [Unit.TYPE.PRESSURE, data.hlBaroLoMonth],
-                    high: [Unit.TYPE.PRESSURE, data.hlBaroHiMonth],
-                },
-                year: {
-                    low: [Unit.TYPE.PRESSURE, data.hlBaroLoYear],
-                    high: [Unit.TYPE.PRESSURE, data.hlBaroHiYear],
-                },
-            },
-            wind: {
-                day: {
-                    value: [Unit.TYPE.WIND, data.hlWindHiDay],
-                    time: data.hlWindHiTime,
-                },
-                month: [Unit.TYPE.WIND, data.hlWindHiMonth],
-                year: [Unit.TYPE.WIND, data.hlWindHiYear],
-            },
-            windChill: {
-                day: {
-                    value: [Unit.TYPE.TEMPERATURE, data.hlChillLoDay],
-                    time: data.hlChillLoTime,
-                },
-                month: [Unit.TYPE.TEMPERATURE, data.hlChillLoMonth],
-                year: [Unit.TYPE.TEMPERATURE, data.hlChillLoYear],
-            },
-            dewpoint: {
-                day: {
-                    low: {
-                        value: [Unit.TYPE.TEMPERATURE, data.hlDewLoDay],
-                        time: data.hlDewLoTime,
-                    },
-                    high: {
-                        value: [Unit.TYPE.TEMPERATURE, data.hlDewHiDay],
-                        time: data.hlDewHiTime,
-                    },
-                },
-                month: {
-                    low: [Unit.TYPE.TEMPERATURE, data.hlDewLoMonth],
-                    high: [Unit.TYPE.TEMPERATURE, data.hlDewHiMonth],
-                },
-                year: {
-                    low: [Unit.TYPE.TEMPERATURE, data.hlDewLoYear],
-                    high: [Unit.TYPE.TEMPERATURE, data.hlDewHiYear],
-                },
-            },
-            heatIndex: {
-                day: {
-                    value: data.hlHeatHiDay,
-                    time: data.hlHeatHiTime,
-                },
-                month: data.hlHeatHiMonth,
-                year: data.hlHeatHiYear,
-            },
-            solarRadiation: {
-                day: {
-                    value: [Unit.TYPE.SOLAR_RADIATION, data.hlSolarHiDay],
-                    time: data.hlSolarHiTime,
-                },
-                month: [Unit.TYPE.SOLAR_RADIATION, data.hlSolarHiMonth],
-                year: [Unit.TYPE.SOLAR_RADIATION, data.hlSolarHiYear],
-            },
-            uvLevel: {
-                day: {
-                    value: data.hlUVHiDay,
-                    time: data.hlUVHiTime,
-                },
-                month: data.hlUVHiMonth,
-                year: data.hlUVHiYear,
-            },
-            rainRate: {
-                day: {
-                    value: [Unit.TYPE.RAIN, data.hlRainRateHiDay],
-                    time: data.hlRainRateHiTime,
-                },
-                month: [Unit.TYPE.RAIN, data.hlRainRateHiMonth],
-                year: [Unit.TYPE.RAIN, data.hlRainRateHiYear],
-            },
-            temperature: {
-                inside: {
-                    day: {
-                        low: {
-                            value: [Unit.TYPE.TEMPERATURE, data.hlInTempLoDay],
-                            time: data.hlInTempLoTime,
-                        },
-                        high: {
-                            value: [Unit.TYPE.TEMPERATURE, data.hlInTempHiDay],
-                            time: data.hlInTempHiTime,
-                        },
-                    },
-                    month: {
-                        low: [Unit.TYPE.TEMPERATURE, data.hlInTempLoMonth],
-                        high: [Unit.TYPE.TEMPERATURE, data.hlInTempHiMonth],
-                    },
-                    year: {
-                        low: [Unit.TYPE.TEMPERATURE, data.hlInTempLoYear],
-                        high: [Unit.TYPE.TEMPERATURE, data.hlInTempHiYear],
-                    },
-                },
-                outside: {
-                    day: {
-                        low: {
-                            value: [Unit.TYPE.TEMPERATURE, data.hlOutTempLoDay],
-                            time: data.hlOutTempLoTime,
-                        },
-                        high: {
-                            value: [Unit.TYPE.TEMPERATURE, data.hlOutTempHiDay],
-                            time: data.hlOutTempHiTime,
-                        },
-                    },
-                    month: {
-                        low: [Unit.TYPE.TEMPERATURE, data.hlOutTempLoMonth],
-                        high: [Unit.TYPE.TEMPERATURE, data.hlOutTempHiMonth],
-                    },
-                    year: {
-                        low: [Unit.TYPE.TEMPERATURE, data.hlOutTempLoYear],
-                        high: [Unit.TYPE.TEMPERATURE, data.hlOutTempHiYear],
-                    },
-                },
-            },
-            humidity: {
-                inside: {
-                    day: {
-                        low: {
-                            value: data.hlInHumLoDay,
-                            time: data.hlInHumLoTime,
-                        },
-                        high: {
-                            value: data.hlInHumHiDay,
-                            time: data.hlInHumHiTime,
-                        },
-                    },
-                    month: {
-                        low: data.hlInHumLoMonth,
-                        high: data.hlInHumHiMonth,
-                    },
-                    year: {
-                        low: data.hlInHumLoYear,
-                        high: data.hlInHumHiYear,
-                    },
-                },
-            },
-        };
-    }
+        },
+        forecast: {
+            text: data.rtForecast,
+            icon: data.rtForeIcon,
+            rule: data.rtForeRule,
+        },
+        batteries: {
+            consoleVoltageLevel: data.rtBattVoltage,
+            transmitterVoltageLevel: data.rtXmitBattt,
+        },
+        thswIndex: data.rtSolarRad === "n/a" ? data.rtThswIndex : null,
+    };
 };

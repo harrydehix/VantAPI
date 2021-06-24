@@ -1,3 +1,5 @@
+const UnitError = require("./UnitError");
+
 /**
  * Interface to all available units, their types, unit presets, and a conversion function.
  */
@@ -6,22 +8,22 @@ const Unit = {
      * Contains all available unit types.
      * A unit type is a string representing a group of units being convertible among themselves.
      */
-    TYPE: {
-        WIND: "wind",
-        TEMPERATURE: "temp",
-        PRESSURE: "pres",
-        RAIN: "rain",
-        SOLAR_RADIATION: "slra",
-        SOIL_MOISTURE: "soil",
+    Type: {
+        Wind: "wind",
+        Temperature: "temp",
+        Pressure: "pres",
+        Rain: "rain",
+        SolarRadiation: "slra",
+        SoilMoisture: "soil",
     },
     /**
      * Contains all available wind units.
      */
-    WIND: {
+    Wind: {
         /**
          * wind unit, miles per hour
          */
-        mph: "mp/h",
+        mph: "mph",
         /**
          * wind unit, kilometers per hour
          */
@@ -38,7 +40,7 @@ const Unit = {
     /**
      * Contains all available temperature units.
      */
-    TEMPERATURE: {
+    Temperature: {
         /**
          * temperature unit, fahrenheit
          */
@@ -51,7 +53,7 @@ const Unit = {
     /**
      * Contains all available pressure units.
      */
-    PRESSURE: {
+    Pressure: {
         /**
          * pressure unit, inches per mercury
          */
@@ -68,7 +70,7 @@ const Unit = {
     /**
      * Contains all available rain units.
      */
-    RAIN: {
+    Rain: {
         /**
          * rain unit, cups
          */
@@ -85,7 +87,7 @@ const Unit = {
     /**
      * Contains all available solar radiation units.
      */
-    SOLAR_RADIATION: {
+    SolarRadiation: {
         /**
          * solar radiation unit, watt per m²
          */
@@ -94,11 +96,97 @@ const Unit = {
     /**
      * Contains all available soil moisture units.
      */
-    SOIL_MOISTURE: {
+    SoilMoisture: {
         /**
          * soil moisture unit, cb
          */
         cb: "cb",
+    },
+
+    toString(unitValue) {
+        return `${unitValue[0]} ${unitValue[1]}`;
+    },
+
+    parse(unitString) {
+        let number = "";
+        let unit = "";
+        let decimalDotAppended = false;
+        let isParsingNumber = true;
+        for (let i = 0; i < unitString.length; i++) {
+            const char = unitString[i];
+            if (char.match(/[0-9]/) && isParsingNumber) {
+                number += char;
+            } else if (char === ".") {
+                if (decimalDotAppended)
+                    throw new Error(
+                        "Failed to parse string. Multiple dots are not valid."
+                    );
+                decimalDotAppended = true;
+                number += char;
+            } else {
+                isParsingNumber = false;
+                unit += char;
+            }
+        }
+        unit = unit.trim();
+        number = number.trim();
+        if (Number.isNaN(number))
+            throw new Error(
+                "Failed to parse string. No valid number detected."
+            );
+        number = Number(number);
+        if (!this.isUnit(unit))
+            throw new Error("Failed to parse string. Invalid unit.");
+        return [number, unit];
+    },
+
+    typeof(unit) {
+        switch (unit) {
+            case Unit.Pressure.bar:
+            case Unit.Pressure.hpa:
+            case Unit.Pressure.inhg:
+                return Unit.Type.Pressure;
+            case Unit.Rain.cups:
+            case Unit.Rain.in:
+            case Unit.Rain.mm:
+                return Unit.Type.Rain;
+            case Unit.SoilMoisture.cb:
+                return Unit.Type.SoilMoisture;
+            case Unit.SolarRadiation.wm2:
+                return Unit.Type.SolarRadiation;
+            case Unit.Temperature.celsius:
+            case Unit.Temperature.fahrenheit:
+                return Unit.Type.Temperature;
+            case Unit.Wind.kmh:
+            case Unit.Wind.kt:
+            case Unit.Wind.mph:
+            case Unit.Wind.ms:
+                return Unit.Type.Wind;
+            default:
+                return false;
+        }
+    },
+
+    isUnit(unit) {
+        switch (unit) {
+            case Unit.Pressure.bar:
+            case Unit.Pressure.hpa:
+            case Unit.Pressure.inhg:
+            case Unit.Rain.cups:
+            case Unit.Rain.in:
+            case Unit.Rain.mm:
+            case Unit.SoilMoisture.cb:
+            case Unit.SolarRadiation.wm2:
+            case Unit.Temperature.celsius:
+            case Unit.Temperature.fahrenheit:
+            case Unit.Wind.kmh:
+            case Unit.Wind.kt:
+            case Unit.Wind.mph:
+            case Unit.Wind.ms:
+                return true;
+            default:
+                return false;
+        }
     },
 
     /**
@@ -111,33 +199,33 @@ const Unit = {
             case "eu":
                 return {
                     preset: "eu",
-                    [Unit.TYPE.PRESSURE]: Unit.PRESSURE.hpa,
-                    [Unit.TYPE.RAIN]: Unit.RAIN.mm,
-                    [Unit.TYPE.SOIL_MOISTURE]: Unit.SOIL_MOISTURE.cb,
-                    [Unit.TYPE.SOLAR_RADIATION]: Unit.SOLAR_RADIATION.wm2,
-                    [Unit.TYPE.TEMPERATURE]: Unit.TEMPERATURE.celsius,
-                    [Unit.TYPE.WIND]: Unit.WIND.kmh,
+                    [Unit.Type.Pressure]: Unit.Pressure.hpa,
+                    [Unit.Type.Rain]: Unit.Rain.mm,
+                    [Unit.Type.SoilMoisture]: Unit.SoilMoisture.cb,
+                    [Unit.Type.SolarRadiation]: Unit.SolarRadiation.wm2,
+                    [Unit.Type.Temperature]: Unit.Temperature.celsius,
+                    [Unit.Type.Wind]: Unit.Wind.kmh,
                 };
             case "us":
                 return {
                     preset: "us",
-                    [Unit.TYPE.PRESSURE]: Unit.PRESSURE.inhg,
-                    [Unit.TYPE.RAIN]: Unit.RAIN.in,
-                    [Unit.TYPE.SOIL_MOISTURE]: Unit.SOIL_MOISTURE.cb,
-                    [Unit.TYPE.SOLAR_RADIATION]: Unit.SOLAR_RADIATION.wm2,
-                    [Unit.TYPE.TEMPERATURE]: Unit.TEMPERATURE.fahrenheit,
-                    [Unit.TYPE.WIND]: Unit.WIND.mph,
+                    [Unit.Type.Pressure]: Unit.Pressure.inhg,
+                    [Unit.Type.Rain]: Unit.Rain.in,
+                    [Unit.Type.SoilMoisture]: Unit.SoilMoisture.cb,
+                    [Unit.Type.SolarRadiation]: Unit.SolarRadiation.wm2,
+                    [Unit.Type.Temperature]: Unit.Temperature.fahrenheit,
+                    [Unit.Type.Wind]: Unit.Wind.mph,
                 };
             case "default":
             default:
                 return {
                     preset: "default",
-                    [Unit.TYPE.PRESSURE]: Unit.PRESSURE.inhg,
-                    [Unit.TYPE.RAIN]: Unit.RAIN.cups,
-                    [Unit.TYPE.SOIL_MOISTURE]: Unit.SOIL_MOISTURE.cb,
-                    [Unit.TYPE.SOLAR_RADIATION]: Unit.SOLAR_RADIATION.wm2,
-                    [Unit.TYPE.TEMPERATURE]: Unit.TEMPERATURE.fahrenheit,
-                    [Unit.TYPE.WIND]: Unit.WIND.mph,
+                    [Unit.Type.Pressure]: Unit.Pressure.inhg,
+                    [Unit.Type.Rain]: Unit.Rain.cups,
+                    [Unit.Type.SoilMoisture]: Unit.SoilMoisture.cb,
+                    [Unit.Type.SolarRadiation]: Unit.SolarRadiation.wm2,
+                    [Unit.Type.Temperature]: Unit.Temperature.fahrenheit,
+                    [Unit.Type.Wind]: Unit.Wind.mph,
                 };
         }
     },
@@ -153,191 +241,191 @@ const Unit = {
         //console.log(`From ${currentUnit} to ${targetUnit} (${value})`);
         switch (currentUnit) {
             // PRESSURE CONVERSION
-            case Unit.PRESSURE.hpa:
+            case Unit.Pressure.hpa:
                 switch (targetUnit) {
-                    case Unit.PRESSURE.inhg:
+                    case Unit.Pressure.inhg:
                         return value / 33.86389;
-                    case Unit.PRESSURE.hpa:
+                    case Unit.Pressure.hpa:
                         return value;
-                    case Unit.PRESSURE.bar:
+                    case Unit.Pressure.bar:
                         return value / 1000;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
-            case Unit.PRESSURE.inhg:
+            case Unit.Pressure.inhg:
                 switch (targetUnit) {
-                    case Unit.PRESSURE.hpa:
+                    case Unit.Pressure.hpa:
                         return value * 33.86389;
-                    case Unit.PRESSURE.inhg:
+                    case Unit.Pressure.inhg:
                         return value;
-                    case Unit.PRESSURE.bar:
+                    case Unit.Pressure.bar:
                         return value * 0.03386389;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
-            case Unit.PRESSURE.bar:
+            case Unit.Pressure.bar:
                 switch (targetUnit) {
-                    case Unit.PRESSURE.hpa:
+                    case Unit.Pressure.hpa:
                         return value * 1000;
-                    case Unit.PRESSURE.inhg:
+                    case Unit.Pressure.inhg:
                         return value / 0.03386389;
-                    case Unit.PRESSURE.bar:
+                    case Unit.Pressure.bar:
                         return value;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
             // TEMPERATURE CONVERSION
-            case Unit.TEMPERATURE.fahrenheit:
+            case Unit.Temperature.fahrenheit:
                 switch (targetUnit) {
-                    case Unit.TEMPERATURE.fahrenheit:
+                    case Unit.Temperature.fahrenheit:
                         return value;
-                    case Unit.TEMPERATURE.celsius:
+                    case Unit.Temperature.celsius:
                         return (value - 32) * (5 / 9);
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
-            case Unit.TEMPERATURE.celsius:
+            case Unit.Temperature.celsius:
                 switch (targetUnit) {
-                    case Unit.TEMPERATURE.fahrenheit:
+                    case Unit.Temperature.fahrenheit:
                         return value * 1.8 + 32;
-                    case Unit.TEMPERATURE.celsius:
+                    case Unit.Temperature.celsius:
                         return value;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
             // WIND CONVERSION
-            case Unit.WIND.kmh:
+            case Unit.Wind.kmh:
                 switch (targetUnit) {
-                    case Unit.WIND.kmh:
+                    case Unit.Wind.kmh:
                         return value;
-                    case Unit.WIND.kt:
+                    case Unit.Wind.kt:
                         return value * 0.53996;
-                    case Unit.WIND.mph:
+                    case Unit.Wind.mph:
                         return value / 1.609344;
-                    case Unit.WIND.ms:
+                    case Unit.Wind.ms:
                         return value / 3.6;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
-            case Unit.WIND.kt:
+            case Unit.Wind.kt:
                 switch (targetUnit) {
-                    case Unit.WIND.kmh:
+                    case Unit.Wind.kmh:
                         return value / 0.53996;
-                    case Unit.WIND.kt:
+                    case Unit.Wind.kt:
                         return value;
-                    case Unit.WIND.mph:
+                    case Unit.Wind.mph:
                         return value * 1.15078;
-                    case Unit.WIND.ms:
+                    case Unit.Wind.ms:
                         return value * 0.514444444444;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
-            case Unit.WIND.mph:
+            case Unit.Wind.mph:
                 switch (targetUnit) {
-                    case Unit.WIND.kmh:
+                    case Unit.Wind.kmh:
                         return value * 1.609344;
-                    case Unit.WIND.kt:
+                    case Unit.Wind.kt:
                         return value / 1.15078;
-                    case Unit.WIND.mph:
+                    case Unit.Wind.mph:
                         return value;
-                    case Unit.WIND.ms:
+                    case Unit.Wind.ms:
                         return value * 0.44704;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
-            case Unit.WIND.ms:
+            case Unit.Wind.ms:
                 switch (targetUnit) {
-                    case Unit.WIND.kmh:
+                    case Unit.Wind.kmh:
                         return value * 3.6;
-                    case Unit.WIND.kt:
+                    case Unit.Wind.kt:
                         return value / 0.514444444444;
-                    case Unit.WIND.mph:
+                    case Unit.Wind.mph:
                         return value / 0.44704;
-                    case Unit.WIND.ms:
+                    case Unit.Wind.ms:
                         return value;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
             // RAIN CONVERSION
-            case Unit.RAIN.cups:
+            case Unit.Rain.cups:
                 switch (targetUnit) {
-                    case Unit.RAIN.cups:
+                    case Unit.Rain.cups:
                         return value;
-                    case Unit.RAIN.mm:
+                    case Unit.Rain.mm:
                         return value * 0.2;
-                    case Unit.RAIN.in:
+                    case Unit.Rain.in:
                         return value / 127;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
-            case Unit.RAIN.mm:
+            case Unit.Rain.mm:
                 switch (targetUnit) {
-                    case Unit.RAIN.cups:
+                    case Unit.Rain.cups:
                         return value / 0.2;
-                    case Unit.RAIN.mm:
+                    case Unit.Rain.mm:
                         return value;
-                    case Unit.RAIN.in:
+                    case Unit.Rain.in:
                         return value / 25.4;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
-            case Unit.RAIN.in:
+            case Unit.Rain.in:
                 switch (targetUnit) {
-                    case Unit.RAIN.cups:
+                    case Unit.Rain.cups:
                         return value * 127;
-                    case Unit.RAIN.mm:
+                    case Unit.Rain.mm:
                         return value * 25.4;
-                    case Unit.RAIN.in:
+                    case Unit.Rain.in:
                         return value;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
             // SOIL MOISTURE CONVERSION
-            case Unit.SOIL_MOISTURE.cb:
+            case Unit.SoilMoisture.cb:
                 switch (targetUnit) {
-                    case Unit.SOIL_MOISTURE.cb:
+                    case Unit.SoilMoisture.cb:
                         return value;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
             // SOLAR RADIATION CONVERSION
-            case Unit.SOLAR_RADIATION.wm2:
+            case Unit.SolarRadiation.wm2:
                 switch (targetUnit) {
-                    case Unit.SOLAR_RADIATION.wm2:
+                    case Unit.SolarRadiation.wm2:
                         return value;
                     default:
-                        throw new Error(
+                        throw new UnitError(
                             `Cannot convert from ${currentUnit} to ${targetUnit}!`
                         );
                 }
             default:
-                throw new Error(
+                throw new UnitError(
                     `Cannot convert from ${currentUnit} to ${targetUnit}!`
                 );
         }

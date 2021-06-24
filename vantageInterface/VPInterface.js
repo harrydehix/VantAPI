@@ -1,9 +1,7 @@
 const exec = require("await-exec");
 const fs = require("fs/promises");
 const parseData = require("./parseData");
-const createHandler = require("./createHandler");
-const refractorData = require("./refractorData");
-const VPData = require("./VPData");
+const Refractor = require("./refractorData");
 
 /**
  * Fixes the vproweather's negative wind chill value bug by calculating the wind chill from outside temperature and gust speed.
@@ -16,7 +14,7 @@ const fixWindChill = (data) => {
             35.74 +
             0.6215 * data.rtOutsideTemp +
             (0.4275 * data.rtOutsideTemp - 35.75) *
-                Math.pow(data.rtWind10mGustMaxSpeed, 0.16);
+                data.rtWind10mGustMaxSpeed ** 0.16;
         if (data.rtWindChill > data.rtOutsideTemp) {
             data.rtWindChill = data.rtOutsideTemp;
         }
@@ -37,168 +35,149 @@ class VPInterface {
      * @param {Boolean} config.useSamples whether to really connect to the weather station using vproweather or to simulate the connection (default: false)
      */
     constructor(deviceUrl = "/dev/ttyUSB0", config) {
-        this.config = Object.assign(
-            {
-                delay: 10,
-                maxTries: 20,
-                logErrors: false,
-                useSamples: false,
-            },
-            config
-        );
+        this.config = {
+            delay: 10,
+            maxTries: 20,
+            logErrors: false,
+            useSamples: false,
+            ...config,
+        };
         this.deviceUrl = deviceUrl;
     }
 
-    /**
-     * Get realtime weather data.
-     */
-    getRealtimeData = createHandler.apply(this, [
-        async () => {
-            let data;
-            // get data from driver or from sample files (if developing on another computer)
-            if (!this.config.useSamples) {
-                data = (
-                    await exec(
-                        `vproweather --delay=${this.config.delay} -x ${this.deviceUrl}`
-                    )
-                ).stdout;
-            } else {
-                data = await fs.readFile(
-                    `${__dirname}/samples/getRealtime.txt`,
-                    {
-                        encoding: "utf8",
-                    }
-                );
+    createDriverFunction(fn) {
+        return async (...args) => {
+            for (let i = 0; i < this.config.maxTries; i++) {
+                try {
+                    const result = await fn.apply(this, ...args);
+                    return result;
+                } catch (err) {
+                    if (this.config.logErrors) console.error(err);
+                }
             }
-
-            // parse data to object
-            data = parseData(data);
-
-            // calculate wind chill manually if driver returns invalid value
-            data = fixWindChill(data);
-
-            // refractor data into a common api structure
-            data = refractorData(data, "realtime");
-
-            return new VPData(data);
-        },
-    ]);
+            return undefined;
+        };
+    }
 
     /**
      * Get highs and lows.
      */
-    getHighsAndLows = createHandler.apply(this, [
-        async () => {
-            let data;
+    getHighsAndLows = this.createDriverFunction(async () => {
+        let data;
 
-            // get data from driver or from sample files (if developing on another computer)
-            if (!this.config.useSamples) {
-                data = (
-                    await exec(
-                        `vproweather --delay=${this.config.delay} -l ${this.deviceUrl}`
-                    )
-                ).stdout;
-            } else {
-                data = await fs.readFile(
-                    `${__dirname}/samples/getHighLow.txt`,
-                    {
-                        encoding: "utf8",
-                    }
-                );
-            }
-            // parse data
-            data = parseData(data);
+        // get data from driver or from sample files (if developing on another computer)
+        if (!this.config.useSamples) {
+            data = (
+                await exec(
+                    `vproweather --delay=${this.config.delay} -l ${this.deviceUrl}`
+                )
+            ).stdout;
+        } else {
+            data = await fs.readFile(`${__dirname}/samples/getHighLow.txt`, {
+                encoding: "utf8",
+            });
+        }
+        // parse data
+        data = parseData(data);
 
-            // refractor data into a common api structure
-            data = refractorData(data, "highlow");
+        // refractor data into a common api structure
+        return Refractor.refractorHighsAndLows(data);
+    });
 
-            return new VPData(data);
-        },
-    ]);
+    /**
+     * Get realtime weather data.
+     */
+    getRealtimeData = this.createDriverFunction(async () => {
+        let data;
+        // get data from driver or from sample files (if developing on another computer)
+        if (!this.config.useSamples) {
+            data = (
+                await exec(
+                    `vproweather --delay=${this.config.delay} -x ${this.deviceUrl}`
+                )
+            ).stdout;
+        } else {
+            data = await fs.readFile(`${__dirname}/samples/getRealtime.txt`, {
+                encoding: "utf8",
+            });
+        }
+
+        // parse data to object
+        data = parseData(data);
+
+        // calculate wind chill manually if driver returns invalid value
+        data = fixWindChill(data);
+
+        // refractor data into a common api structure
+        return Refractor.refractorRealtime(data);
+    });
 
     /**
      * Get the weather station time.
      */
-    getConsoleTime = createHandler.apply(this, [
-        async () => {
-            let data;
+    getConsoleTime = this.createDriverFunction(async () => {
+        let data;
 
-            // get data from driver or from sample files (if developing on another computer)
-            if (!this.config.useSamples) {
-                data = (
-                    await exec(
-                        `vproweather --delay=${this.config.delay} --get-time ${this.deviceUrl}`
-                    )
-                ).stdout;
-            } else {
-                data = await fs.readFile(`${__dirname}/samples/getTime.txt`, {
-                    encoding: "utf8",
-                });
-            }
-            // parse data
-            data = parseData(data);
+        // get data from driver or from sample files (if developing on another computer)
+        if (!this.config.useSamples) {
+            data = (
+                await exec(
+                    `vproweather --delay=${this.config.delay} --get-time ${this.deviceUrl}`
+                )
+            ).stdout;
+        } else {
+            data = await fs.readFile(`${__dirname}/samples/getTime.txt`, {
+                encoding: "utf8",
+            });
+        }
+        // parse data
+        data = parseData(data);
 
-            return refractorData(data, "time");
-        },
-    ]);
+        return Refractor.refractorHighsAndLows(data);
+    });
 
     /**
      * Set the weather station time to system time.
      */
-    syncConsoleTime = createHandler.apply(this, [
-        async () => {
-            if (this.config.useSamples) return;
-            await exec(
-                `vproweather --delay=${this.config.delay} --set-time ${this.deviceUrl}`
-            );
-            return true;
-        },
-    ]);
+    syncConsoleTime = this.createDriverFunction(async () => {
+        if (this.config.useSamples) return;
+        await exec(
+            `vproweather --delay=${this.config.delay} --set-time ${this.deviceUrl}`
+        );
+        return true;
+    });
 
     /**
-     * Turn the console's backlite off.
+     * Turn the console's backlite on/off.
      */
-    turnBackliteOff = createHandler.apply(this, [
-        async () => {
-            if (this.config.useSamples) return;
-            await exec(`vproweather --bklite-off ${this.deviceUrl}`);
-            return true;
-        },
-    ]);
+    setBackliteEnabled = this.createDriverFunction(async (enabled) => {
+        if (this.config.useSamples) return;
 
-    /**
-     * Turn the console's backlite on.
-     */
-    turnBackliteOn = createHandler.apply(this, [
-        async () => {
-            if (this.config.useSamples) return;
-            await exec(`vproweather --bklite-on ${this.deviceUrl}`);
-            return true;
-        },
-    ]);
+        enabled = enabled ? "on" : "off";
+        await exec(`vproweather --bklite-${enabled} ${this.deviceUrl}`);
+        return true;
+    });
 
     /**
      * Get the stations model name.
      */
-    getStationModel = createHandler.apply(this, [
-        async () => {
-            let data;
-            // get data from driver or from sample files (if developing on another computer)
-            if (!this.config.useSamples)
-                await exec(
-                    `vproweather --delay=${this.config.delay} --model ${this.deviceUrl}`
-                );
-            else {
-                data = await fs.readFile(`${__dirname}/samples/model.txt`, {
-                    encoding: "utf8",
-                });
-            }
-            // parse data
-            data = parseData(data, true);
+    getStationModel = this.createDriverFunction(async () => {
+        let data;
+        // get data from driver or from sample files (if developing on another computer)
+        if (!this.config.useSamples)
+            await exec(
+                `vproweather --delay=${this.config.delay} --model ${this.deviceUrl}`
+            );
+        else {
+            data = await fs.readFile(`${__dirname}/samples/model.txt`, {
+                encoding: "utf8",
+            });
+        }
+        // parse data
+        data = parseData(data, true);
 
-            return refractorData(data, "model");
-        },
-    ]);
+        return Refractor.refractorModel(data);
+    });
 }
 
 module.exports = VPInterface;
